@@ -1,0 +1,16 @@
+#emacs buffer files
+*~
+
+#Active directories
+BACKUP
+ImageBank
+Results
+
+#Log files
+*.txt
+
+#Python cache
+__pycache__
+
+#assorted data products
+*.csv

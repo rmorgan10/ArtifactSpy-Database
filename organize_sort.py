@@ -89,3 +89,6 @@ if not os.path.exists('log.txt'):
     log_file = open('log.txt', 'w+')
     log_file.write('CURRENT: batch--00001--{}.tar.gz'.format(metadata_timestamps[0]))
     log_file.close()
+
+    # Queue up the first batch
+    os.system('cp ImageBank/Batches/batch--00001--{0}.tar.gz CURRENT--batch--00001--{1}.tar.gz'.format(metadata_timestamps[0], metadata_timestamps[0]))

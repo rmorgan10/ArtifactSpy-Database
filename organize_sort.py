@@ -83,3 +83,9 @@ if os.path.exists('batch_objid_map.csv'):
     existing_objid_batch_df = pd.read_csv('batch_objid_map.csv')
     objid_batch_df = pd.concat([existing_objid_batch_df, objid_batch_df])
 objid_batch_df.to_csv('batch_objid_map.csv', index=False)
+
+# Initialize log.txt if it doesn't exist yet
+if not os.path.exists('log.txt'):
+    log_file = open('log.txt', 'w+')
+    log_file.write('CURRENT: batch--00001--{}.tar.gz'.format(metadata_timestamps[0]))
+    log_file.close()

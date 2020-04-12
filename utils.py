@@ -112,19 +112,20 @@ def queue_up_unsure(objids):
 
     # Iterate through the objid list and sort images accordingly
     for objid in objids:
-        batch = master_df['BATCH'].values[master_df['OBJID'].values == objid][0]
+        batches = master_df['BATCH'].values[master_df['OBJID'].values == objid]
+        for batch in batches:
 
-        batch_tarball = glob.glob('ImageBank/Batches/batch--{}--*.tar.gz'.format(format_batchnum(int(batch))))[0]
-        batch_dir_name = batch_tarball.split('/')[-1].split('.')[0]
+            batch_tarball = glob.glob('ImageBank/Batches/batch--{}--*.tar.gz'.format(format_batchnum(int(batch))))[0]
+            batch_dir_name = batch_tarball.split('/')[-1].split('.')[0]
 
-        # open up the tarball
-        os.system('tar -xzf ' + batch_tarball)
-        
-        # copy the stamps for the objid to the staging directory
-        os.system('cp {0}/*{1}.gif ImageBank/Unsure'.format(batch_dir_name, objid))
-
-        # clean up the unpacked tarball
-        os.system('rm -r ' + batch_dir_name)
+            # open up the tarball
+            os.system('tar -xzf ' + batch_tarball)
+            
+            # copy the stamps for the objid to the staging directory
+            os.system('cp {0}/*{1}.gif ImageBank/Unsure'.format(batch_dir_name, objid))
+            
+            # clean up the unpacked tarball
+            os.system('rm -r ' + batch_dir_name)
         
     # After we get enough unsure objids, tar them up and send me an email
     os.chdir('ImageBank/Unsure')

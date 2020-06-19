@@ -11,24 +11,44 @@ import smtplib
 import sys
 
 
-def chunks(lst, n):
-    """
-    A generator to break a list into chunks of size n
-    """
-    for i in range(0, len(lst), n):
-        yield lst[i:i + n]
+#def chunks(lst, n):
+#    """
+#    A generator to break a list into chunks of size n
+#    """
+#    for i in range(0, len(lst), n):
+#        yield lst[i:i + n]
+
+#def get_chunks(lst, n):
+#    """
+#    Return a list split into chunks of size n
+#    """
+#    chunked_list = list(chunks(lst, n))
+#    # Take the last chunk and distribute it's elements into previous chunks
+#    # -- this assures there will never be a small chunk
+#    equal_chunks = chunked_list[0:-1]
+#    for i in range(len(chunked_list[-1])):
+#        equal_chunks[i].append(chunked_list[-1][i])
+#    return equal_chunks
 
 def get_chunks(lst, n):
     """
-    Return a list split into chunks of size n
+    Break a list (lst) into n chunks.
     """
-    chunked_list = list(chunks(lst, n))
-    # Take the last chunk and distribute it's elements into previous chunks
-    # -- this assures there will never be a small chunk
-    equal_chunks = chunked_list[0:-1]
-    for i in range(len(chunked_list[-1])):
-        equal_chunks[i].append(chunked_list[-1][i])
-    return equal_chunks
+    chunk_size = len(lst) // n
+    chunks = [[]] * n
+    start, end = (0, chunk_size)
+    
+    for i in range(n):
+        # sort elements in equal size chunks
+        chunks[i] = lst[start:end]
+        start = end + 0
+        end += chunk_size
+    
+    # pick up all the remaining elements
+    for i, element in enumerate(lst[start:]):
+        chunks[i].append(element)
+        
+    return chunks
 
 def format_batchnum(num):
     """

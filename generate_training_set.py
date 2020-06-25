@@ -89,8 +89,6 @@ for batch, labels in batch_labels:
 
     t.close()
 
-    break
-
 # Now attach the metadata
 for v in data.values():
     v.metadata = master_labels.loc[v.objid_list]

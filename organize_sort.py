@@ -44,7 +44,7 @@ for timestamp in remaining_timestamps:
     os.chdir('../..')
 
     # Split list of objids into chunks
-    split_objids = get_chunks(objids, 100)
+    split_objids = get_chunks(objids, 10)
     
     # Go through the chunks and organize images
     for batch in split_objids:

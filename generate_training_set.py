@@ -15,14 +15,22 @@ from utils import format_batchnum
 
 # Collect all labels (metadata already in master_labels)
 master_labels = pd.read_csv('Results/master_results.csv')
+master_labels['OBJID'] = np.array(master_labels['OBJID'].values, dtype=int)
 master_labels['OBJID_COPY'] = master_labels['OBJID'].values
 master_labels.set_index("OBJID", inplace=True)
+
 my_labels = pd.read_csv('Results/ramorgan2/my_labels.csv')
+my_labels['OBJID'] = np.array(my_labels['OBJID'].values, dtype=int)
 my_labels['OBJID_COPY'] = my_labels['OBJID'].values
 my_labels.set_index("OBJID", inplace=True)
+
 unsure_labels = pd.concat([pd.read_csv(x) for x in glob.glob('Results/UnsureResults/*.csv')])
+unsure_labels['OBJID'] = np.array(unsure_labels['OBJID'].values, dtype=int)
 unsure_labels['OBJID_COPY'] = unsure_labels['OBJID'].values
 unsure_labels.set_index("OBJID", inplace=True)
+
+### Drop all duplicates
+
 
 ### Overwrite unsure and overlapping labels
 my_labels['ACTION'] = my_labels['LABEL'].values
@@ -37,9 +45,10 @@ master_labels.drop(['Unnamed: 0', 'METADATA_STAMP'], axis=1, inplace=True)
 
 ### Overwrites from secondary inspection
 inspect_df = pd.read_csv('overwrite.csv', comment='#')
-inspect_df['OBJID_COPY'] = inspect_df['OBJID'].values
+inspect_df['OBJID'] = np.array(inspect_df['OBJID'].values, dtype=int)
 inspect_df.set_index("OBJID", inplace=True)
 master_labels.update(inspect_df)
+del inspect_df
 
 ### Collect all batch numbers
 batch_objid_map = pd.read_csv('batch_objid_map.csv')

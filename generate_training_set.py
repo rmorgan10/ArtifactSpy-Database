@@ -45,7 +45,7 @@ master_labels.drop(['Unnamed: 0', 'METADATA_STAMP'], axis=1, inplace=True)
 
 ### Overwrites from secondary inspection
 inspect_df = pd.read_csv('overwrite.csv', comment='#')
-inspect_df['OBJID'] = np.array(inspect_df['OBJID'].values, dtype=int)
+inspect_df = inspect_df.drop_duplicates('OBJID', keep='last')
 inspect_df.set_index("OBJID", inplace=True)
 master_labels.update(inspect_df)
 del inspect_df
@@ -64,7 +64,9 @@ class_map = {'Good': 0,
              'BadSubtraction': 3,
              'DarkSpotInTemplateCenter': 4,
              'NoisyTemplate': 5,
-             'PsfInTemplate': 6}
+             'PsfInTemplate': 6,
+             'GoodCNN': 7,
+             'BadSubtractionCNN': 8}
 
 class DataObject():
     def __init__(self):

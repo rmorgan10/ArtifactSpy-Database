@@ -148,7 +148,9 @@ for v in data.values():
 
 # Now attach the metadata
 for v in data.values():
-    #v.metadata = master_labels.loc[v.objid_list]
+    if len(v.metadata_list) == 0:
+        continue
+
     v.metadata = pd.concat(v.metadata_list)
 
 # Create a directory for the training set
@@ -157,6 +159,9 @@ os.mkdir("TrainingSets/" + training_set_name)
 
 # Save data
 for k, v in data.items():
+    if len(v.metadata_list) == 0:
+        continue
+
     # Save metadata
     v.metadata.to_csv("TrainingSets/" + training_set_name + '/Class_' + str(k) + '_metadata.csv', index=False)
 
